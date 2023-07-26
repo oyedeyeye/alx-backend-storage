@@ -1,3 +1,4 @@
 // script that inserts a document in the collection school:
 // The document must have one attribute name with value “Holberton school”
+db.school.drop()
 db.school.insert({ "name": “Holberton school” })
