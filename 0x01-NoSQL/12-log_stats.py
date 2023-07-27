@@ -20,19 +20,16 @@ from pymongo import MongoClient
 
 
 client = MongoClient('mongodb://127.0.0.1:27017')
-nginx_collection = client.logs.nginx
-x = nginx_collection.estimated_document_count()
-print("{} logs".format(x))
+collection = client.logs.nginx
+
+print("{} logs".format(collection.estimated_document_count()))
+
+method = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 print("Methods:")
-print("\tmethod GET: {}".format(
-        nginx_collection.count_documents({"method": "GET"})))
-print("\tmethod POST: {}".format(
-        nginx_collection.count_documents({"method": "POST"})))
-print("\tmethod PUT: {}".format(
-        nginx_collection.count_documents({"method": "PUT"})))
-print("\tmethod PATCH: {}".format(
-        nginx_collection.count_documents({"method": "PATCH"})))
-print("\tmethod DELETE: {}".format(
-        nginx_collection.count_documents({"method": "DELETE"})))
+
+for req in method:
+    print("\tmethod {}: {}".format(
+        req, collection.count_documents({"method": req})))
+
 print("{} status check".format(
-    nginx_collection.count_documents({"method": "GET", "path": "/status"})))
+    collection.count_documents({"method": "GET", "path": "/status"})))
